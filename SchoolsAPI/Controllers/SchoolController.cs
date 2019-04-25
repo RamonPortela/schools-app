@@ -33,7 +33,7 @@ namespace SchoolsAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var school = await _SchoolService.GetByIdAsync(id);
+            School school = await _SchoolService.GetByIdAsync(id);
 
             if (school == null)
             {
