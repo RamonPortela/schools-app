@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL.Entities
 {
-    interface IIdentityEntity
+    public interface IIdentityEntity
     {
         int Id { get; set; }
     }
