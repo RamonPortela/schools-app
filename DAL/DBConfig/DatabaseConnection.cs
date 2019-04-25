@@ -12,8 +12,9 @@ namespace DAL.DBConfig
         {
             get
             {
+                string diretorio = $"{Directory.GetParent(Directory.GetCurrentDirectory()).ToString()}\\DAL";
                 IConfigurationRoot Configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .SetBasePath(diretorio)
                     .AddJsonFile("appsettings.json")
                     .Build();
                 return Configuration;

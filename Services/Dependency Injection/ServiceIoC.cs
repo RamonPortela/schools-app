@@ -8,7 +8,6 @@ namespace Services.Dependency_Injection
         public static void ApplicationServiceIoC(this IServiceCollection services)
         {
             services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
-
             services.AddScoped<ISchoolService, SchoolService>();
             services.AddScoped<IClassService, ClassService>();
         }
