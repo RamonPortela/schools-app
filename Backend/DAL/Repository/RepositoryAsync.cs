@@ -84,5 +84,10 @@ namespace DAL.Repository
         {
             return await dbContext.SaveChangesAsync();
         }
+
+        public async Task<int> GetCountAsync()
+        {
+            return await dbSet.CountAsync();
+        }
     }
 }

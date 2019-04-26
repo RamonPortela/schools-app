@@ -17,14 +17,21 @@ namespace SchoolsAPI.Controllers
             _SchoolService = SchoolService;
         }
 
-        // GET: api/Schools
+        // GET: api/school
         [HttpGet]
         public async Task<IEnumerable<School>> GetSchool()
         {
             return await _SchoolService.GetAllAsync();
         }
 
-        // GET: api/Schools/5
+        // GET: api/school/count
+        [HttpGet("count")]
+        public async Task<int> GetCount()
+        {
+            return await _SchoolService.GetCountAsync();
+        }
+
+        // GET: api/school/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSchool([FromRoute] int id)
         {
@@ -43,7 +50,7 @@ namespace SchoolsAPI.Controllers
             return Ok(school);
         }
 
-        // PUT: api/Schools/5
+        // PUT: api/school/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSchool([FromRoute] int id, [FromBody] School school)
         {
@@ -62,7 +69,7 @@ namespace SchoolsAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Schools
+        // POST: api/school
         [HttpPost]
         public async Task<IActionResult> PostSchool([FromBody] School school)
         {
@@ -76,7 +83,7 @@ namespace SchoolsAPI.Controllers
             return CreatedAtAction("GetSchool", new { id = school.Id }, school);
         }
 
-        // DELETE: api/Schools/5
+        // DELETE: api/school/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSchool([FromRoute] int id)
         {

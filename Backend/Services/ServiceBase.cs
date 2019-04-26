@@ -37,6 +37,11 @@ namespace Services
             return await repository.GetByIdAsync(id);
         }
 
+        public async Task<int> GetCountAsync()
+        {
+            return await repository.GetCountAsync();
+        }
+
         public virtual async Task<bool> RemoveAsync(object id)
         {
             return await repository.RemoveAsync(id);

@@ -20,5 +20,7 @@ namespace DAL.Repository
         Task<bool> RemoveAsync(object id);
         Task<int> RemoveAsync(TEntity obj);
         Task<int> RemoveRangeAsync(IEnumerable<TEntity> entities);
+
+        Task<int> GetCountAsync();
     }
 }
