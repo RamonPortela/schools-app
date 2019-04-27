@@ -42,6 +42,12 @@ namespace Services
             return await repository.GetCountAsync();
         }
 
+        public async Task<IEnumerable<TEntity>> GetPaginatedAsync(int page)
+        {
+            return await repository.GetPaginatedAsync(page);
+        }
+
+
         public virtual async Task<bool> RemoveAsync(object id)
         {
             return await repository.RemoveAsync(id);

@@ -13,6 +13,8 @@ namespace Services.Interfaces
         Task<TEntity> GetByIdAsync(object id);
         Task<IEnumerable<TEntity>> GetAllAsync();
 
+        Task<IEnumerable<TEntity>> GetPaginatedAsync(int page);
+
         Task UpdateAsync(TEntity obj);
         Task UpdateRangeAsync(IEnumerable<TEntity> entities);
 

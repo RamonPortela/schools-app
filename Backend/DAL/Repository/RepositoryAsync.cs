@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,6 +41,12 @@ namespace DAL.Repository
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await Task.FromResult(dbSet);
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetPaginatedAsync(int page)
+        {
+            int pageSize = 5;
+            return await Task.FromResult(dbSet.Skip(pageSize * (page - 1)).Take(pageSize));
         }
 
         public virtual async Task<TEntity> GetByIdAsync(object id)

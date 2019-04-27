@@ -19,8 +19,10 @@ namespace SchoolsAPI.Controllers
 
         // GET: api/school
         [HttpGet]
-        public async Task<IEnumerable<School>> GetSchool()
+        public async Task<IEnumerable<School>> GetSchool([FromQuery]int page)
         {
+            if (page > 0)
+                return await _SchoolService.GetPaginatedAsync(page);
             return await _SchoolService.GetAllAsync();
         }
 
@@ -33,7 +35,7 @@ namespace SchoolsAPI.Controllers
 
         // GET: api/school/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSchool([FromRoute] int id)
+        public async Task<IActionResult> GetSchoolById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
