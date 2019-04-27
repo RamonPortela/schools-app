@@ -37,14 +37,14 @@ namespace Services
             return await repository.GetByIdAsync(id);
         }
 
-        public async Task<int> GetCountAsync()
+        public async Task<int> GetCountAsync(string search)
         {
-            return await repository.GetCountAsync();
+            return await repository.GetCountAsync(search);
         }
 
-        public async Task<IEnumerable<TEntity>> GetPaginatedAsync(int page)
+        public async Task<IEnumerable<TEntity>> GetPaginatedAsync(int page, string search)
         {
-            return await repository.GetPaginatedAsync(page);
+            return await repository.GetPaginatedAsync(page, search);
         }
 
 

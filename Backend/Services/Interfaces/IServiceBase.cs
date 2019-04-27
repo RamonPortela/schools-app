@@ -13,7 +13,7 @@ namespace Services.Interfaces
         Task<TEntity> GetByIdAsync(object id);
         Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<IEnumerable<TEntity>> GetPaginatedAsync(int page);
+        Task<IEnumerable<TEntity>> GetPaginatedAsync(int page, string search);
 
         Task UpdateAsync(TEntity obj);
         Task UpdateRangeAsync(IEnumerable<TEntity> entities);
@@ -22,6 +22,6 @@ namespace Services.Interfaces
         Task RemoveAsync(TEntity obj);
         Task RemoveRangeAsync(IEnumerable<TEntity> entities);
 
-        Task<int> GetCountAsync();
+        Task<int> GetCountAsync(string search);
     }
 }

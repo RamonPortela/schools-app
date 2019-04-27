@@ -19,18 +19,18 @@ namespace SchoolsAPI.Controllers
 
         // GET: api/school
         [HttpGet]
-        public async Task<IEnumerable<School>> GetSchool([FromQuery]int page)
+        public async Task<IEnumerable<School>> GetSchool([FromQuery]int page, [FromQuery]string search)
         {
             if (page > 0)
-                return await _SchoolService.GetPaginatedAsync(page);
+                return await _SchoolService.GetPaginatedAsync(page, search);
             return await _SchoolService.GetAllAsync();
         }
 
         // GET: api/school/count
         [HttpGet("count")]
-        public async Task<int> GetCount()
+        public async Task<int> GetCount([FromQuery] string search)
         {
-            return await _SchoolService.GetCountAsync();
+            return await _SchoolService.GetCountAsync(search);
         }
 
         // GET: api/school/5

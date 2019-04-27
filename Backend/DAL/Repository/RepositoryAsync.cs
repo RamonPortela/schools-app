@@ -43,10 +43,10 @@ namespace DAL.Repository
             return await Task.FromResult(dbSet);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetPaginatedAsync(int page)
+        public virtual async Task<IEnumerable<TEntity>> GetPaginatedAsync(int page, string search)
         {
             int pageSize = 5;
-            return await Task.FromResult(dbSet.Skip(pageSize * (page - 1)).Take(pageSize));
+            return await Task.FromResult(dbSet.Where(x => x.Name.Contains(search ?? "")).Skip(pageSize * (page - 1)).Take(pageSize));
         }
 
         public virtual async Task<TEntity> GetByIdAsync(object id)
@@ -92,9 +92,9 @@ namespace DAL.Repository
             return await dbContext.SaveChangesAsync();
         }
 
-        public async Task<int> GetCountAsync()
+        public async Task<int> GetCountAsync(string search)
         {
-            return await dbSet.CountAsync();
+            return await dbSet.Where(x => x.Name.Contains(search ?? "")).CountAsync();
         }
     }
 }

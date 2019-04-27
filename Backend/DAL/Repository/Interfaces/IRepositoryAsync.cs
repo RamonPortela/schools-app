@@ -14,7 +14,7 @@ namespace DAL.Repository
         Task<TEntity> GetByIdAsync(object id);
         Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<IEnumerable<TEntity>> GetPaginatedAsync(int page);
+        Task<IEnumerable<TEntity>> GetPaginatedAsync(int page, string search);
 
         Task<int> UpdateAsync(TEntity obj);
         Task<int> UpdateRangeAsync(IEnumerable<TEntity> entities);
@@ -23,6 +23,6 @@ namespace DAL.Repository
         Task<int> RemoveAsync(TEntity obj);
         Task<int> RemoveRangeAsync(IEnumerable<TEntity> entities);
 
-        Task<int> GetCountAsync();
+        Task<int> GetCountAsync(string search);
     }
 }
