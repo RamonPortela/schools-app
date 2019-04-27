@@ -39,7 +39,7 @@ namespace SchoolsAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(option => option.AllowAnyOrigin());
+            app.UseCors(option => option.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseMvc();
         }
