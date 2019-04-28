@@ -1,3 +1,5 @@
+// TODO USE REFACTOR THIS COMPONENT TO USE SLOTS
+
 <template>
   <div :class="{content: loadingPage}">
     <md-progress-spinner
@@ -11,11 +13,15 @@
         <div class="md-primary rounded-icon">
           <md-icon>search</md-icon>
         </div>
-
-
         <md-field md-clearable class="md-toolbar-section-end">
           <md-input placeholder="Pesquisar" v-model="search"/>
         </md-field>
+        <md-button 
+          class="md-icon-button md-raised md-primary rounded-icon align-end"
+          @click="openModalForm"  
+        >
+          <md-icon>add</md-icon>
+        </md-button>
       </md-table-toolbar>
       <md-table-empty-state :md-label="titleEmpty" :md-description="descriptionEmpty">
         <md-button class="md-primary md-raised" @click="openModalForm">{{buttonEmptyText}}</md-button>
@@ -79,13 +85,13 @@
     <md-dialog :md-active.sync="showDialog" v-if="selectedItem">
       <md-dialog-title>{{selectedItem.name}}</md-dialog-title>
       <div style="padding:0 20px">
-        <md-table v-model="selectedItem.classes" md-card md-fixed-header v-if="selectedItem.classes.length > 1">
-          <md-table-row slot="md-table-row" slot-scope="{ item }">
-            <md-table-cell md-label="ID" md-numeric>{{ item.id }}</md-table-cell>
-            <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
-          </md-table-row>
-        </md-table>
-        <div v-else>
+        <h4>Turmas:</h4>
+        <md-list>
+          <md-list-item v-for="clazz in selectedItem.classes" :key="clazz.id">
+            {{clazz.name}}
+          </md-list-item>
+        </md-list>
+        <div v-if="selectedItem.classes && selectedItem.classesQuantity === 0">
           Não há turma associada a essa escola
         </div>
         <div v-if="selectedItem.school">
@@ -111,14 +117,6 @@ export default {
     VueAdsPageButton
   },
   props: {
-    tableTitle: {
-      type: String,
-      required: true
-    },
-    searchPlaceHolder: {
-      type: String,
-      required: true
-    },
     titleEmpty: {
       type: String,
       required: true
@@ -274,6 +272,12 @@ export default {
   background: var(--md-theme-default-primary);
   padding: 5px;
   margin-right: 10px;
+}
+
+.align-end{
+    align-self: flex-end;
+    order: 200;
+    margin-left: auto;
 }
 
 .vue-ads-m-2{

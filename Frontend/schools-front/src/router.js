@@ -19,9 +19,9 @@ export default new Router({
       component: () => import("./views/school/Schools.vue")
     },
     {
-      path: "/school/:id",
-      name: "detalhe-escola",
-      component: () => import("./views/school/SchoolDetails.vue")
+      path: "/classes",
+      name: "classes",
+      component: () => import("./views/class/Classes.vue")
     }
   ]
 });

@@ -1,14 +1,14 @@
 <template>
   <div>
     <PaginatedTable
-      titleEmpty="Nenhuma Escola Encontrada"
-      descriptionEmpty="Nenhuma escola foi encontrada com este nome. Faça uma nova busca ou adicione uma nova escola."
-      buttonEmptyText="Adicionar Nova Escola"
+      titleEmpty="Nenhuma Turma Encontrada"
+      descriptionEmpty="Nenhuma Turma foi encontrada com este nome. Faça uma nova busca ou adicione uma nova turma."
+      buttonEmptyText="Adicionar Nova Turma"
       :columns="columns"
-      endpoint="/school"
+      endpoint="/class"
       :bus="eventBus"
       @openModalForm="openModalForm"
-      @deletedItem="snackBarMessage='Escola Removida'; showSnackbar=true"
+      @deletedItem="snackBarMessage='Turma Removida'; showSnackbar=true"
     />
 
 
@@ -20,13 +20,22 @@
     >
         <md-dialog-title>{{modalTitle}}</md-dialog-title>
 
-      <form novalidate @submit.prevent="validateSchool" style="padding:0 20px">
+      <form novalidate @submit.prevent="validateClass" style="padding:0 20px">
           <div class="md-layout">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('name')">
-                <label for="name">Nome da Escola</label>
+                <label for="name">Nome da Turma</label>
                 <md-input name="name" id="name" v-model="form.name" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.name.required">O nome da escola é obrigatório</span>
+                <span class="md-error" v-if="!$v.form.name.required">O nome da turma é obrigatório</span>
+              </md-field>
+
+            <md-field :class="getValidationClass('schoolId')">
+                <label for="schoolId">Escola</label>
+                <md-select name="schoolId" id="schoolId" v-model="form.schoolId" :disabled="sending">
+                    <md-option></md-option>
+                    <md-option v-for="school in schools" :key="school.id" :value="school.id">{{school.name}}</md-option>
+                </md-select>
+                <span class="md-error" v-if="!$v.form.schoolId.required">O campo escola é obrigatório</span>
               </md-field>
             </div>
           </div>
@@ -62,8 +71,7 @@ export default {
     return {
       columns: [
         { label: "ID", value: "id" },
-        { label: "Nome", value: "name" },
-        { label: "Quantidade de Turmas", value: "classesQuantity" }
+        { label: "Nome", value: "name" }
       ],
       showDialog: false,
       eventBus: new Vue(),
@@ -73,9 +81,11 @@ export default {
       form:{
         name: null,
         id: null,
+        schoolId: null,
       },
       showSnackbar: false,
-      snackBarMessage: null
+      snackBarMessage: null,
+      schools: null
     };
   },
 
@@ -83,21 +93,23 @@ export default {
     form: {
       name:{
         required
-      }
+      },
+      schoolId:{required}
     }
   },
 
   methods:{
-    openModalForm(school){
-      if(school.id){
+    openModalForm(clazz){
+      if(clazz.id){
         this.editing = true;
-        this.modalTitle = 'Editar Escola';
-        this.form.name = school.name;
-        this.form.id = school.id;
+        this.modalTitle = 'Editar Turma';
+        this.form.name = clazz.name;
+        this.form.schoolId = clazz.school.id;
+        this.form.id = clazz.id;
       }
       else{
         this.editing = false;
-        this.modalTitle = 'Adicionar Escola'
+        this.modalTitle = 'Adicionar Turma'
         this.clearForm();
       }
 
@@ -115,29 +127,32 @@ export default {
     clearForm(){
       this.$v.$reset();
       this.form.name = null;
+      this.form.id = null;
+      this.form.schoolId = null;
       this.sending = false;
     },
-    validateSchool () {
+    validateClass () {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
         if(this.editing)
-          this.editSchool();
+          this.editClass();
         else
-          this.saveSchool();
+          this.saveClass();
       }
     },
-    saveSchool(){
-      const school = {
-        name: this.form.name
+    saveClass(){
+      const clazz = {
+        name: this.form.name,
+        schoolId: this.form.schoolId
       }
 
       this.sending = true;
-      Request.post('school', school)
+      Request.post('class', clazz)
         .then(() => {
           this.sending = false;
           this.showDialog = false;
-          this.snackBarMessage = 'Escola inserida com sucesso.';
+          this.snackBarMessage = 'Turma inserida com sucesso.';
           this.showSnackbar = true;
           this.eventBus.$emit('updateTable');
         })
@@ -148,18 +163,19 @@ export default {
           this.showSnackbar = true;
         });
     },
-    editSchool(){
-      const school = {
+    editClass(){
+      const clazz = {
         id: this.form.id,
-        name: this.form.name
+        name: this.form.name,
+        schoolId: this.form.schoolId
       }
 
       this.sending = true;
-      Request.put(`school/${school.id}`, school)
+      Request.put(`class/${clazz.id}`, clazz)
         .then(() => {
           this.sending = false;
           this.showDialog = false;
-          this.snackBarMessage = 'Escola alterada com sucesso.';
+          this.snackBarMessage = 'Turma alterada com sucesso.';
           this.showSnackbar = true;
           this.eventBus.$emit('updateTable');
         })
@@ -169,12 +185,17 @@ export default {
           this.snackBarMessage = 'Erro durante a requisição, tente novamente';
           this.showSnackbar = true;
         });
-    }
+    },
   },
-
-  updateTable(){
-    
-  }
+    mounted(){
+        Request.get('school')
+        .then(response => this.schools = response.data.map(school => {
+            return {
+                id: school.id,
+                name: school.name,
+            }
+        }))
+    }
 };
 </script>
 
