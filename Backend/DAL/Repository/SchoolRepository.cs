@@ -26,5 +26,11 @@ namespace DAL.Repository
 
             return query.SingleOrDefault(school => school.Id == id);
         }
+
+        public override async Task<IEnumerable<School>> GetPaginatedAsync(int page, string search)
+        {
+            int pageSize = 5;
+            return await Task.FromResult(dbSet.Where(x => x.Name.Contains(search ?? "")).Skip(pageSize * (page - 1)).Take(pageSize).Include(school => school.Classes));
+        }
     }
 }

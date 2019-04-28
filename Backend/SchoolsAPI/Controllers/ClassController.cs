@@ -19,9 +19,18 @@ namespace SchoolsAPI.Controllers
 
         // GET: api/Class
         [HttpGet]
-        public async Task<IEnumerable<Class>>GetClass()
+        public async Task<IEnumerable<Class>>GetClass([FromQuery]int page, [FromQuery]string search)
         {
+            if (page > 0)
+                return await _classService.GetAllIncludingSchoolPaginatedAsync(page, search);
             return await _classService.GetAllAsync();
+        }
+
+        // GET: api/Class/count
+        [HttpGet("count")]
+        public async Task<int> GetCount([FromQuery] string search)
+        {
+            return await _classService.GetCountAsync(search);
         }
 
         // GET: api/Class/5
@@ -86,7 +95,7 @@ namespace SchoolsAPI.Controllers
             }
 
             if (await _classService.RemoveAsync(id))
-                Ok();
+                return Ok();
 
 
             return NotFound();

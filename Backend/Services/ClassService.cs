@@ -22,6 +22,11 @@ namespace Services
             return await _repository.GetAllIncludingSchoolAsync();
         }
 
+        public async Task<IEnumerable<Class>> GetAllIncludingSchoolPaginatedAsync(int page, string search)
+        {
+            return await _repository.GetAllIncludingSchoolPaginatedAsync(page, search);
+        }
+
         public async Task<Class> GetByIdIncludingSchoolAsync(int id)
         {
             return await _repository.GetByIdIncludingSchoolAsync(id);

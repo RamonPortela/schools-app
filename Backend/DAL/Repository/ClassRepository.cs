@@ -20,6 +20,12 @@ namespace DAL.Repository
             return query.AsEnumerable();
         }
 
+        public async Task<IEnumerable<Class>> GetAllIncludingSchoolPaginatedAsync(int page, string search)
+        {
+            int pageSize = 5;
+            return await Task.FromResult(dbSet.Where(x => x.Name.Contains(search ?? "")).Skip(pageSize * (page - 1)).Take(pageSize).Include(clasz => clasz.School));
+        }
+
         public async Task<Class> GetByIdIncludingSchoolAsync(int id)
         {
             IQueryable<Class> query = await Task.FromResult(dbSet.Include(clasz => clasz.School));

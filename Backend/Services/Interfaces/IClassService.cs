@@ -10,5 +10,6 @@ namespace Services.Interfaces
     {
         Task<IEnumerable<Class>> GetAllIncludingSchoolAsync();
         Task<Class> GetByIdIncludingSchoolAsync(int id);
+        Task<IEnumerable<Class>> GetAllIncludingSchoolPaginatedAsync(int page, string search);
     }
 }
