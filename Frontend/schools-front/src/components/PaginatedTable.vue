@@ -193,8 +193,14 @@ export default {
         .then(response => {
           Request.get(`${this.endpoint}/count?search=${this.search}`)
             .then(response => {
+                const itensPerPage = 5;
                 this.totalItems = parseInt(response.data);
                 this.totalItemsCurrent = this.totalItems;
+
+                if((this.currentPage + 1) > Math.ceil(this.totalItems / itensPerPage)){
+                  this.currentPage = this.currentPage > 0 ? this.currentPage - 1 : 0;
+                }
+
                 this.$emit('deletedItem');
                 this.getData(this.search);
             })
